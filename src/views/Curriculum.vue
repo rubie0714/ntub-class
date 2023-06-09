@@ -1,9 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute()
 
 let classData = ref(null)
-let stuId = ref(null)
+
+const stuId = ref()
+
+const searchQuery = computed(() => route.query.stuId)
+
+
+onMounted(() => {
+  stuId.value = searchQuery.value || '';
+  if (stuId.value) {
+    getClassData()
+  }
+});
 
 let defaultWeek = ref([
   { number: 0, value: '一' },
@@ -13,7 +28,6 @@ let defaultWeek = ref([
   { number: 4, value: '五' },
   { number: 5, value: '六' },
   { number: 6, value: '日' },
-
 ])
 
 let weeks = ref([
@@ -27,14 +41,19 @@ let weeks = ref([
 
 ])
 
+
 function getClassData() {
   axios.get(`https://api.ntub-class.arthurc.me/personal/${stuId.value}`)
     .then((res) => {
       classData.value = res.data
+      router.push({ query: { stuId: stuId.value } });
     }).catch((error) => {
 
     })
 }
+
+
+
 
 function setDay(day) {
   weeks.value = [day]
@@ -48,7 +67,7 @@ function setDefault(day) {
 
 <template>
   <div class="w-full  bg-gray-500 h-[140px] p-5">
-    <lable class="font-semibold text-gray-300">請輸入學號</lable>
+    <label class="font-semibold text-gray-300">請輸入學號</label>
     <div class="flex flex-warp">
       <input type="text" v-model="stuId" class="p-3 mt-2 mr-4 rounded w-80" />
       <button @click="getClassData" class="w-40 mt-2 border rounded hover:bg-gray-600">搜尋</button>
@@ -92,7 +111,7 @@ function setDefault(day) {
                 </div>
               </td>
               <td v-else class="h-[200px]">
-                -
+                <span> - </span>
               </td>
             </template>
           </tr>

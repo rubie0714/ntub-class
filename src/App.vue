@@ -1,9 +1,8 @@
 <script setup>
-import ClassView from './components/Class.vue'
 </script>
 
 <template>
-  <ClassView />
+  <router-view></router-view>
 </template>
 
 <style scoped></style>
