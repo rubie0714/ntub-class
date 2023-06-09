@@ -10,7 +10,7 @@ let classData = ref(null)
 
 const stuId = ref()
 
-const searchQuery = computed(() => route.query.stuId)
+const searchQuery = computed(() => route.params.id)
 
 
 onMounted(() => {
@@ -46,7 +46,8 @@ function getClassData() {
   axios.get(`https://api.ntub-class.arthurc.me/personal/${stuId.value}`)
     .then((res) => {
       classData.value = res.data
-      router.push({ query: { stuId: stuId.value } });
+      router.push({ params: { id: stuId.value } });
+
     }).catch((error) => {
 
     })
