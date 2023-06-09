@@ -53,9 +53,6 @@ function getClassData() {
     })
 }
 
-
-
-
 function setDay(day) {
   weeks.value = [day]
 }
