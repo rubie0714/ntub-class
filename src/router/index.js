@@ -1,8 +1,13 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Curriculum from '@/views/Curriculum.vue';
+import Home from '@/views/Home.vue';
 const routes = [
   {
-    path: '/:id?',
+    path: '/',
+    component: Home,
+  },
+  {
+    path: '/classtable/:id?',
     component: Curriculum,
   },
 ];
